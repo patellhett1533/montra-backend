@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  api:
+     build: .
+     container_name: ${PROJECT}_api
+     ports:
+       - 8000:8000
+     command: ['sh', './start.sh']
+     env_file: 
+       - .env
+     depends_on:
+       - postgres_db
+
+  postgres_db:
+    image: postgres
+    container_name: ${PROJECT}_db
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
