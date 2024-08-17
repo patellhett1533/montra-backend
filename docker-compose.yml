@@ -3,26 +3,34 @@ version: "3.8"
 services:
   api:
      build: .
-     container_name: ${PROJECT}_api
+     container_name: montra_api
      ports:
        - 8000:8000
      command: ['sh', './start.sh']
      env_file: 
        - .env
      depends_on:
-       - postgres_db
+       - db
+     networks:
+       - montra-network
 
-  postgres_db:
+  db:
     image: postgres
-    container_name: ${PROJECT}_db
+    container_name: montra_db
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${SQL_USER}
+      - POSTGRES_PASSWORD=${SQL_PASSWORD}
+      - POSTGRES_DB=${SQL_NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - montra-network
 
 volumes:
   postgres_data:
+
+networks:
+  montra-network:
+    driver: bridge
