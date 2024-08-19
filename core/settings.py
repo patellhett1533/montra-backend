@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +27,28 @@ SECRET_KEY = 'django-insecure-+n*^4d70a0w2=djs(mw5!l=zel=^u_2f7bg5&@4&k88u)psn5d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+APPEND_SLASH = False
+
 ALLOWED_HOSTS = []
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': {
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    }
+}
+
+JWT_AUTH = {
+    'JWT_VERIFY_EXPIRATION': True,
+    'JWT_LEEWAY': 0,
+    'JWT_AUDIENCE': None,
+    'JWT_ISSUER': None,
+
+    'JWT_SECRET_KEY': os.environ.get('SECRET_KEY'),
+    'JWT_PUBLIC_KEY': None,
+
+    'JWT_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_payload_handler',
+    'JWT_ENCODE_HANDLER': 'rest_framework_jwt.utils.jwt_encode_handler',
+}
 
 
 # Application definition
@@ -40,6 +61,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'expense',
+    'users',
     'rest_framework',
 ]
 
