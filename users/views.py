@@ -1,4 +1,5 @@
 from rest_framework.response import Response
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from .serializers import UserSerializers
@@ -7,6 +8,7 @@ from rest_framework_jwt.settings import api_settings
 
 class RegisterView(APIView):
     permission_classes = [AllowAny]
+    authentication_classes = [TokenAuthentication]
 
     def post(self, request):
         serializer = UserSerializers(data=request.data)
