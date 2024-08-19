@@ -11,6 +11,8 @@ services:
        - .env
      depends_on:
        - db
+     volumes:
+       - .:/app
      networks:
        - montra-network
 

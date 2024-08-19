@@ -1,6 +1,8 @@
-from rest_framework.routers import DefaultRouter
-from .views import ExpenseApi
+from django.urls import path
+from .views import AddExpenseView, GetExpenseView, getAllExpenseView
 
-router = DefaultRouter()
-router.register("expense", ExpenseApi, basename="expense")
-urlpatterns = router.urls
+urlpatterns = [
+    path('add-expense', AddExpenseView.as_view(), name='add-expense'),
+    path('<int:pk>', GetExpenseView.as_view(), name='get-expense'),
+    path('', getAllExpenseView.as_view(), name='get-all-expense'),
+]

@@ -14,11 +14,13 @@ class RegisterView(APIView):
         serializer = UserSerializers(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            return Response({'message': "User Created Successfully"}, status=201)
+            user_data = UserSerializers(user).data
+            return Response({"user": user_data}, status=201)
         return Response(serializer.errors, status=400)
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
+    authentication_classes = [TokenAuthentication]
 
     def post(self, request):
         email = request.data.get('email')
