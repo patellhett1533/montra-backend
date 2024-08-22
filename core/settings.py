@@ -29,26 +29,22 @@ DEBUG = True
 
 APPEND_SLASH = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': {
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.TokenAuthentication'
     }
 }
 
 JWT_AUTH = {
     'JWT_VERIFY_EXPIRATION': True,
-    'JWT_LEEWAY': 0,
-    'JWT_AUDIENCE': None,
-    'JWT_ISSUER': None,
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 
-    'JWT_SECRET_KEY': os.environ.get('SECRET_KEY'),
-    'JWT_PUBLIC_KEY': None,
+    'JWT_SECRET_KEY': SECRET_KEY,
 
-    'JWT_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_payload_handler',
-    'JWT_ENCODE_HANDLER': 'rest_framework_jwt.utils.jwt_encode_handler',
+    # 'JWT_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_payload_handler',
+    # 'JWT_ENCODE_HANDLER': 'rest_framework_jwt.utils.jwt_encode_handler',
 }
 
 
@@ -107,7 +103,7 @@ DATABASES = {
         'NAME': os.environ.get('SQL_NAME'),
         'USER': os.environ.get('SQL_USER'),
         'PASSWORD': os.environ.get('SQL_PASSWORD'),
-        'HOST': 'db',
+        'HOST': os.environ.get('HOST'),
         'PORT': os.environ.get('PORT'),
     }
 }
