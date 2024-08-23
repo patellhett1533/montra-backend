@@ -32,19 +32,31 @@ APPEND_SLASH = False
 ALLOWED_HOSTS = ['*']
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-    }
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
 }
 
 JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': timedelta(hours=24),
     'JWT_VERIFY_EXPIRATION': True,
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 
     'JWT_SECRET_KEY': SECRET_KEY,
 
-    # 'JWT_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_payload_handler',
-    # 'JWT_ENCODE_HANDLER': 'rest_framework_jwt.utils.jwt_encode_handler',
+    'JWT_ENCODE_HANDLER':
+    'rest_framework_jwt.utils.jwt_encode_handler',
+
+    'JWT_DECODE_HANDLER':
+    'rest_framework_jwt.utils.jwt_decode_handler',
+
+    'JWT_PAYLOAD_HANDLER':
+    'rest_framework_jwt.utils.jwt_payload_handler',
 }
 
 
@@ -60,7 +72,6 @@ INSTALLED_APPS = [
     'expense',
     'users',
     'rest_framework',
-    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
