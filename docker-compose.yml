@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  db:
+  postgres:
       image: postgres
       ports:
         - 5432:5432
@@ -9,6 +9,7 @@ services:
         - POSTGRES_USER=${SQL_USER}
         - POSTGRES_PASSWORD=${SQL_PASSWORD}
         - POSTGRES_DB=${SQL_NAME}
+        - POSTGRES_HOST_AUTH_METHOD=trust
       volumes:
         - postgres_data:/var/lib/postgresql/data
       networks:
@@ -23,7 +24,7 @@ services:
      env_file: 
        - .env
      depends_on:
-       - db
+       - postgres
      volumes:
        - .:/app
      networks:
