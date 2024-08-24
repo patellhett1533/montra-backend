@@ -41,7 +41,9 @@ class ExpenseDetailView(APIView):
 
     def put(self, request, pk):
         expense = self.get_object(pk)
-        serializer = ExpenseSerializer(expense, data=request.data)
+        data = request.data.copy()
+        data['user'] = request.user.pk
+        serializer = ExpenseSerializer(expense, data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -50,4 +52,4 @@ class ExpenseDetailView(APIView):
     def delete(self, request, pk):
         expense = self.get_object(pk)
         expense.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "Expense deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
