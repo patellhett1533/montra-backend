@@ -95,7 +95,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'expense',
     'users',
-    'income'
+    'income',
+    'transfer',
 
 ]
 
